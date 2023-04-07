@@ -1,8 +1,7 @@
-import { VolumeInfo } from './../../models/interfaces';
-import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Livro } from 'src/app/models/interfaces';
+import { Component, OnDestroy } from '@angular/core';
 import { LivroService } from 'src/app/service/livro.service';
+import { Livro } from 'src/app/models/interfaces';
 
 @Component({
   selector: 'app-lista-livros',
@@ -12,37 +11,42 @@ import { LivroService } from 'src/app/service/livro.service';
 export class ListaLivrosComponent implements OnDestroy{
 
   listaLivros: Livro[];
-  campoBusca: string = '';
-  subscription: Subscription;
-  livro: Livro;
+  campoBusca: string = ''
+  subscription: Subscription
+  livro: Livro
 
   constructor(private service: LivroService) { }
 
-  buscarLivros(){
-     this.subscription = this.service.buscar(this.campoBusca).subscribe({
-      next: (items) => {this.listaLivros = this.livrosResultadoParaLivro(items)},
-      // A declaração error e complete pode ser omitidas.
-      error: erro => console.log(erro),
-     })
+  buscarLivros() {
+    this.subscription = this.service.buscar(this.campoBusca).subscribe({
+      next: (items) => {
+        this.listaLivros = this.livrosResultadoParaLivros(items)
+      },
+      error: erro => console.error(erro),
+    }
+
+    )
   }
 
-  livrosResultadoParaLivro(items): Livro[]{
+  livrosResultadoParaLivros(items): Livro[] {
     const livros: Livro[] = []
+
     items.forEach(item => {
-        livros.push(this.livro = {
-        title: item.VolumeInfo?.title,
-        authors: item.VolumeInfo?.authors,
-        publisher: item.VolumeInfo?.publisher,
-        publishedDate: item.VolumeInfo?.publishedDate,
-        description: item.VolumeInfo?.description,
-        previewLink: item.VolumeInfo?.previewLink,
-        thumbnail: item.VolumeInfo?.imageLinks?.thumbnail
+      livros.push(this.livro = {
+        title: item.volumeInfo?.title,
+        authors: item.volumeInfo?.authors,
+        publisher: item.volumeInfo?.publisher,
+        publishedDate: item.volumeInfo?.publishedDate,
+        description: item.volumeInfo?.description,
+        previewLink: item.volumeInfo?.previewLink,
+        thumbnail: item.volumeInfo?.imageLinks?.thumbnail
       })
     })
+
     return livros
   }
 
-  ngOnDestroy(): void {
-      this.subscription.unsubscribe();
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 }
