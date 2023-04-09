@@ -8,7 +8,7 @@
       <p class="informacoes">Autoria:</p>
       <p class="resultado">{{ livro.authors}}</p>
       <p class="informacoes">Data de publicação:</p>
-      <p class="resultado">{{ livro.publishedDate }}</p>
+      <p class="resultado">{{ livro.publishedDate | date: 'dd/MM/yyyy' }}</p>
       <p class="informacoes">Editora:</p>
       <p class="resultado">{{ livro.publisher }}</p>
       <button (click)="lerPrevia()" class="detalhes">Ler prévia</button>
@@ -18,7 +18,7 @@
       </button>
     <div class="sinopse">
       <h4 class="informacoes">Sinopse</h4>
-      <p class="resultado">{{ livro }}</p>
+      <p class="resultado">{{ livro.description | slice: 0:1000 }}</p>
     </div>
   </div>
   <div class="overlay"></div>
